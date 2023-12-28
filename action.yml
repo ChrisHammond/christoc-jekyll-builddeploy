@@ -9,6 +9,9 @@ inputs:
     description: 'Options for Jekyll build'
     required: false
     default: ''
+  github_token:
+    description: 'GitHub Token for Deployments'
+    required: true
 
 runs:
   using: 'composite'
@@ -38,6 +41,6 @@ runs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.github_token }}
         publish_dir: ./_site
         publish_branch: main
