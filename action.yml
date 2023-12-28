@@ -16,32 +16,33 @@ inputs:
 jobs:
   jekyll:
     runs-on: ubuntu-20.04 # can change this to ubuntu-latest if you prefer
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    # using: 'composite'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ inputs.ruby_version }}
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby_version }}
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libwebpdemux2 libpoppler97 libpoppler-glib8 libvips42 libvips-tools
-      shell: bash
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebpdemux2 libpoppler97 libpoppler-glib8 libvips42 libvips-tools
+        shell: bash
 
-    - name: Build and Deploy Jekyll Site
-      uses: limjh16/jekyll-action-ts@v2.4.1
-      with:
-        enable_cache: true
-        format_output: true
-        prettier_opts: '{ "useTabs": true }'
-        build_opts: ${{ inputs.jekyll_build_opts }}
+      - name: Build and Deploy Jekyll Site
+        uses: limjh16/jekyll-action-ts@v2.4.1
+        with:
+          enable_cache: true
+          format_output: true
+          prettier_opts: '{ "useTabs": true }'
+          build_opts: ${{ inputs.jekyll_build_opts }}
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ inputs.github_token }}
-        publish_dir: ./_site
-        publish_branch: main
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ inputs.github_token }}
+          publish_dir: ./_site
+          publish_branch: main
