@@ -13,8 +13,9 @@ inputs:
     description: 'GitHub Token for Deployments'
     required: true
 
-runs:
-  using: 'composite'
+jobs:
+  jekyll:
+    runs-on: ubuntu-20.04 # can change this to ubuntu-latest if you prefer
   steps:
     - name: Checkout
       uses: actions/checkout@v2
