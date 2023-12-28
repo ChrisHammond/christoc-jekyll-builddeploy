@@ -1,17 +1,20 @@
 name: 'Build and Deploy Jekyll Site'
 description: 'Builds and deploys a Jekyll site to GitHub Pages'
-inputs:
-  ruby_version:
-    description: 'Ruby version to use'
-    required: true
-    default: '3.2.2'
-  jekyll_build_opts:
-    description: 'Options for Jekyll build'
-    required: false
-    default: ''
-  github_token:
-    description: 'GitHub Token for Deployments'
-    required: true
+
+on: 
+  workflow_call:
+    inputs:
+      ruby_version:
+        description: 'Ruby version to use'
+        required: true
+        default: '3.2.2'
+      jekyll_build_opts:
+        description: 'Options for Jekyll build'
+        required: false
+        default: ''
+      github_token:
+        description: 'GitHub Token for Deployments'
+        required: true
 
 jobs:
   jekyll:
