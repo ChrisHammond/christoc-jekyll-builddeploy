@@ -1,0 +1,42 @@
+name: 'Build and Deploy Jekyll Site'
+description: 'Builds and deploys a Jekyll site to GitHub Pages'
+inputs:
+  ruby_version:
+    description: 'Ruby version to use'
+    required: true
+    default: '3.2.2'
+  jekyll_build_opts:
+    description: 'Options for Jekyll build'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.ruby_version }}
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libwebpdemux2 libpoppler97 libpoppler-glib8 libvips42 libvips-tools
+
+    - name: Build and Deploy Jekyll Site
+      uses: limjh16/jekyll-action-ts@v2.4.1
+      with:
+        enable_cache: true
+        format_output: true
+        prettier_opts: '{ "useTabs": true }'
+        build_opts: ${{ inputs.jekyll_build_opts }}
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
+        publish_branch: main
